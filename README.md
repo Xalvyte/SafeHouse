@@ -80,6 +80,7 @@ POSTGRES_DB=safehouse_db
 
 # SQLAlchemy connection string
 DATABASE_URL=postgresql://postgres:thesispassword@db:5432/safehouse_db
+
 💡 Create an App Password in your Google Account (under Security → App Passwords)
 Regular Gmail passwords won’t work for SMTP.
 
