@@ -162,6 +162,7 @@ safehouse/
 ├── Dockerfile              # Flask container build instructions
 ├── docker-compose.yml      # Multi-container definition
 ├── requirements.txt        # Python dependencies
+├── notifier.py             # For Email Notifications
 ├── .env                    # Environment config (excluded from git)
 └── README.md
 ```
