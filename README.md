@@ -114,7 +114,9 @@ Visit:
 👉 http://localhost:8000 (if local)
 👉 http://<raspberrypi-ip>:8000 (from LAN)
 
-Default features available:
+---
+
+## Default features available:
 
 Register / Login
 
@@ -126,7 +128,9 @@ Logs viewer
 
 Manual Lock / Unlock buttons
 
-🧠 Facial Recognition Pipeline
+---
+
+## 🧠 Facial Recognition Pipeline
 
 1. PIR sensor detects motion
 2. Camera activates for ~10 seconds
@@ -137,7 +141,9 @@ Manual Lock / Unlock buttons
 7. Log recognition event to PostgreSQL
 This ensures minimal CPU usage by limiting recognition runs and caching embeddings.
 
-📂 Project Structure
+---
+
+##📂 Project Structure
 
 ```bash
 safehouse/
@@ -160,49 +166,51 @@ safehouse/
 └── README.md
 ```
 
-🧾 Environment Variables Summary
+---
+
+## 🧾 Environment Variables Summary
 ```bash
 Variable	             Description
 EMAIL_ADDRESS	      -  Gmail address used for sending alerts
-EMAIL_PASSWORD	    -  App-specific Gmail password
+EMAIL_PASSWORD	      -  App-specific Gmail password
 DATABASE_URL	      -  SQLAlchemy DB connection string
 POSTGRES_USER	      -  PostgreSQL user
 POSTGRES_PASSWORD	  -  PostgreSQL password
-POSTGRES_DB	        -  PostgreSQL database name
+POSTGRES_DB	          -  PostgreSQL database name
 ```
 
 ⚡ Common Docker Commands
+```bash
 Command	Description
 sudo docker compose up -d	Start containers in detached mode
 sudo docker compose down	Stop all running containers
 sudo docker compose logs -f	View live logs
 sudo docker exec -it safehouse_web bash	Enter Flask container shell
 sudo docker exec -it safehouse_db psql -U postgres	Access Postgres CLI
+```
+##🔒 Security Notes
 
-🔒 Security Notes
 .env file must never be committed to GitHub.
-
 Docker isolates both app and database from the host network.
-
 Only port 8000 (web) is exposed.
-
 Database (db) is only accessible within Docker network, not public.
-
 Email credentials are injected via environment variables at runtime.
 
-🧪 Troubleshooting
+##🧪 Troubleshooting
 
 ```bash
 Issue	Fix
 docker compose not found	-    Install plugin: sudo apt install docker-compose-plugin -y
 Port 5432 in use	        -    Stop system Postgres: sudo systemctl stop postgresql
-Camera feed blank         -    Enable Pi camera via sudo raspi-config
+Camera feed blank           -    Enable Pi camera via sudo raspi-config
 PIR always triggered	    -    Check wiring or adjust threshold sensitivity
-Module build errors	      -    Run sudo apt install build-essential libcap-dev -y before build
+Module build errors	        -    Run sudo apt install build-essential libcap-dev -y before build
 Email not sending	        -    Ensure App Password is valid and less-secure apps disabled
 ```
 
-🧰 Manual Run (Without Docker)
+---
+
+## 🧰 Manual Run (Without Docker)
 Useful for debugging directly on Raspberry Pi.
 
 ```bash
@@ -213,9 +221,13 @@ python app.py
 Access at http://localhost:8000
 ```
 
-📜 License & Credits
-Developers: Rhod Railey De Vera, France Jethrayne A. Miclat, Wyatt Mathew N. Yatco, Justine Lusung
-Year: 2025
+---
+
+## 📜 License & Credits
+## Developers: Rhod Railey De Vera, France Jethrayne A. Miclat, Wyatt Mathew N. Yatco, Justine Lusung
+## Year: 2025
+
+---
 
 Libraries used:
 
