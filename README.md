@@ -139,6 +139,7 @@ This ensures minimal CPU usage by limiting recognition runs and caching embeddin
 
 📂 Project Structure
 
+```bash
 safehouse/
 │
 ├── app.py                  # Main Flask app entry point
@@ -157,15 +158,18 @@ safehouse/
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Environment config (excluded from git)
 └── README.md
+```
 
 🧾 Environment Variables Summary
-Variable	Description
-EMAIL_ADDRESS	Gmail address used for sending alerts
-EMAIL_PASSWORD	App-specific Gmail password
-DATABASE_URL	SQLAlchemy DB connection string
-POSTGRES_USER	PostgreSQL user
-POSTGRES_PASSWORD	PostgreSQL password
-POSTGRES_DB	PostgreSQL database name
+```bash
+Variable	             Description
+EMAIL_ADDRESS	      -  Gmail address used for sending alerts
+EMAIL_PASSWORD	    -  App-specific Gmail password
+DATABASE_URL	      -  SQLAlchemy DB connection string
+POSTGRES_USER	      -  PostgreSQL user
+POSTGRES_PASSWORD	  -  PostgreSQL password
+POSTGRES_DB	        -  PostgreSQL database name
+```
 
 ⚡ Common Docker Commands
 Command	Description
@@ -187,6 +191,8 @@ Database (db) is only accessible within Docker network, not public.
 Email credentials are injected via environment variables at runtime.
 
 🧪 Troubleshooting
+
+```bash
 Issue	Fix
 docker compose not found	-    Install plugin: sudo apt install docker-compose-plugin -y
 Port 5432 in use	        -    Stop system Postgres: sudo systemctl stop postgresql
@@ -194,6 +200,7 @@ Camera feed blank         -    Enable Pi camera via sudo raspi-config
 PIR always triggered	    -    Check wiring or adjust threshold sensitivity
 Module build errors	      -    Run sudo apt install build-essential libcap-dev -y before build
 Email not sending	        -    Ensure App Password is valid and less-secure apps disabled
+```
 
 🧰 Manual Run (Without Docker)
 Useful for debugging directly on Raspberry Pi.
