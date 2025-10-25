@@ -64,11 +64,13 @@ It is built using **Python**, **Flask**, **PostgreSQL**, and **Docker** — desi
 ```bash
 git clone https://github.com/<your-username>/safehouse.git
 cd safehouse
-2️⃣ Create .env File
-In the root folder, create a .env file (⚠️ not to be uploaded to GitHub):
+```
 
-bash
-Copy code
+
+2️⃣ Create .env File
+In the root folder, create a .env file:
+
+```bash
 # Email credentials (for alerts and verification)
 EMAIL_ADDRESS=youremail@gmail.com
 EMAIL_PASSWORD=your_app_password
@@ -80,13 +82,14 @@ POSTGRES_DB=safehouse_db
 
 # SQLAlchemy connection string
 DATABASE_URL=postgresql://postgres:thesispassword@db:5432/safehouse_db
+```
 
 💡 Create an App Password in your Google Account (under Security → App Passwords)
 Regular Gmail passwords won’t work for SMTP.
 
 3️⃣ Build and Run Containers
-bash
-Copy code
+
+```bash
 sudo docker compose build
 sudo docker compose up -d
 This starts two containers:
@@ -94,18 +97,19 @@ This starts two containers:
 safehouse_web — Flask app
 
 safehouse_db — PostgreSQL database
+```
 
 Check logs:
-
-bash
-Copy code
+```bash
 sudo docker compose logs -f
+```
 Stop:
-
-bash
-Copy code
+```bash
 sudo docker compose down
+```
+
 4️⃣ Access Web Dashboard
+
 Visit:
 👉 http://localhost:8000 (if local)
 👉 http://<raspberrypi-ip>:8000 (from LAN)
@@ -123,8 +127,7 @@ Logs viewer
 Manual Lock / Unlock buttons
 
 🧠 Facial Recognition Pipeline
-text
-Copy code
+
 1. PIR sensor detects motion
 2. Camera activates for ~10 seconds
 3. MTCNN detects face bounding boxes
@@ -135,8 +138,7 @@ Copy code
 This ensures minimal CPU usage by limiting recognition runs and caching embeddings.
 
 📂 Project Structure
-bash
-Copy code
+
 safehouse/
 │
 ├── app.py                  # Main Flask app entry point
@@ -155,6 +157,7 @@ safehouse/
 ├── requirements.txt        # Python dependencies
 ├── .env                    # Environment config (excluded from git)
 └── README.md
+
 🧾 Environment Variables Summary
 Variable	Description
 EMAIL_ADDRESS	Gmail address used for sending alerts
@@ -185,28 +188,26 @@ Email credentials are injected via environment variables at runtime.
 
 🧪 Troubleshooting
 Issue	Fix
-docker compose not found	Install plugin: sudo apt install docker-compose-plugin -y
-Port 5432 in use	Stop system Postgres: sudo systemctl stop postgresql
-Camera feed blank	Enable Pi camera via sudo raspi-config
-PIR always triggered	Check wiring or adjust threshold sensitivity
-Module build errors	Run sudo apt install build-essential libcap-dev -y before build
-Email not sending	Ensure App Password is valid and less-secure apps disabled
+docker compose not found	-    Install plugin: sudo apt install docker-compose-plugin -y
+Port 5432 in use	        -    Stop system Postgres: sudo systemctl stop postgresql
+Camera feed blank         -    Enable Pi camera via sudo raspi-config
+PIR always triggered	    -    Check wiring or adjust threshold sensitivity
+Module build errors	      -    Run sudo apt install build-essential libcap-dev -y before build
+Email not sending	        -    Ensure App Password is valid and less-secure apps disabled
 
 🧰 Manual Run (Without Docker)
 Useful for debugging directly on Raspberry Pi.
 
-bash
-Copy code
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 Access at http://localhost:8000
+```
 
 📜 License & Credits
-Developer: Railey De Vera
-Institution: Holy Angel University
-Instructor: Prof. Ulysses
+Developers: Rhod Railey De Vera, France Jethrayne A. Miclat, Wyatt Mathew N. Yatco, Justine Lusung
 Year: 2025
 
 Libraries used:
@@ -220,24 +221,5 @@ flask, flask-login
 sqlalchemy, psycopg2
 
 gpiod, picamera2
-
-✅ Deliverables Summary
-Requirement	Status
-🎥 Video Demo	✅ Included
-📖 User Manual	✅ (This README)
-💾 GitHub Repository	✅ Ready for submission
-🐳 Docker Application	✅ docker-compose.yml configured
-💻 Installer / APK	⚙️ Optional (Desktop/Mobile Interface)
-
-🧩 Future Improvements
-Add facial dataset retraining from dashboard
-
-Implement MFA and access expiry
-
-Integrate SMS/Email alert for failed unlock attempts
-
-Optimize recognition with ONNX Runtime
-
-Expand UI with activity analytics
 
 🧠 SafeHouse combines local ML inference, sensor-based automation, and secure containerization — a complete end-to-end IoT security system prototype.
