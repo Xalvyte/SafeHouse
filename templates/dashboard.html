@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safehouse Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="sidebar fixed inset-y-0 left-0 w-64 md:w-64 w-4/5 max-w-xs bg-gray-800 shadow-lg p-6 flex flex-col transition-transform duration-300 z-40"
+        style="transform: translateX(0);">
+        <h2 class="text-3xl font-bold text-white logo-font mb-2 text-center animate-pulse">
+            Safehouse
+        </h2>
+        <hr class="border-gray-700 mb-4">
+        <nav class="space-y-2">
+            <a href="{{ url_for('landing') }}"
+                class="sidebar-link {% if request.endpoint == 'landing' %}active{% endif %}">
+                <i data-lucide="home"></i> Home
+            </a>
+            <a href="{{ url_for('add_user') }}"
+                class="sidebar-link {% if request.endpoint == 'add_user' %}active{% endif %}">
+                <i data-lucide="user-plus"></i> Add User
+            </a>
+            <a href="{{ url_for('manage_users') }}" class="sidebar-link {% if request.endpoint == 'manage_users' %}active{% endif %}">
+                <i data-lucide="users"></i> Manage Users
+            </a>
+            <a href="{{ url_for('profile') }}"
+                class="sidebar-link {% if request.endpoint == 'profile' %}active{% endif %}">
+                <i data-lucide="settings"></i> Profile Settings
+            </a>
+            <a href="#" onclick="confirmLogout(event)"
+                class="sidebar-link logout-link {% if request.endpoint == 'logout' %}active-logout{% endif %}">
+                <i data-lucide="log-out"></i> Logout
+            </a>
+        </nav>
+        <!-- Toggle button: middle right of sidebar, two arrows -->
+        <button id="menu-btn"
+            class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-50 px-2 py-2 bg-gray-700 rounded-full text-gray-200 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition flex items-center gap-1"
+            style="box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+            <i data-lucide="chevron-left"></i>
+            <i data-lucide="chevron-right"></i>
+        </button>
+    </aside>
+
+    <!-- Overlay for mobile when sidebar is open -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-30 hidden md:hidden"></div>
+
+    <!-- Main content -->
+    <div class="flex-1 p-6 md:ml-64 transition-all duration-300" id="main-content">
+        <!-- Camera Feed -->
+        <section class="mb-10">
+            <h2 class="text-xl font-semibold mb-4">Live Camera Feed</h2>
+            <div class="bg-gray-800 p-4 rounded-xl shadow-lg flex justify-center">
+                <img src="{{ url_for('video_feed') }}" alt="Camera Feed"
+                    class="rounded-lg max-h-96 w-full object-contain" id="camera-feed">
+            </div>
+        </section>
+        
+        <div class="mb-4 flex items-center gap-2">
+            <label for="log-date" class="font-medium">Select Date:</label>
+            <input type="date" id="log-date" class="rounded px-2 py-1 text-gray-900">
+            <button id="today-btn" class="px-2 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-500">Today</button>
+        </div>
+
+
+        <!-- Logs -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Activity Logs</h2>
+            <div id="logs-container" class="logs-container bg-gray-800 p-4 rounded-lg shadow-lg h-64 overflow-y-auto flex flex-col">
+                Loading logs...
+            </div>
+
+            <!-- Door Control Buttons -->
+            <div class="flex justify-between mt-6">
+                <button id="unlock-btn"
+                    class="dashboard-btn unlock-btn">
+                    Unlock Door
+                </button>
+                <button id="lock-btn"
+                    class="dashboard-btn lock-btn">
+                    Lock Door
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const sidebarOverlay = document.getElementById("sidebar-overlay");
+        let sidebarVisible = true;
+
+        function showSidebar() {
+            sidebar.style.transform = "translateX(0)";
+            if (window.innerWidth < 768) {
+                sidebarOverlay.classList.remove("hidden");
+                mainContent.classList.remove("md:ml-64");
+            } else {
+                sidebarOverlay.classList.add("hidden");
+                mainContent.classList.add("md:ml-64");
+            }
+        }
+
+        function hideSidebar() {
+            sidebar.style.transform = "translateX(-100%)";
+            sidebarOverlay.classList.add("hidden");
+            mainContent.classList.remove("md:ml-64");
+        }
+
+        menuBtn.addEventListener("click", () => {
+            sidebarVisible = !sidebarVisible;
+            if (sidebarVisible) {
+                showSidebar();
+            } else {
+                hideSidebar();
+            }
+        });
+
+        // Hide sidebar when overlay is clicked (mobile)
+        sidebarOverlay.addEventListener("click", () => {
+            sidebarVisible = false;
+            hideSidebar();
+        });
+
+        // Responsive: show/hide sidebar on resize
+        window.addEventListener("resize", () => {
+            if (window.innerWidth >= 768) {
+                sidebarVisible = true;
+                showSidebar();
+            } else if (!sidebarVisible) {
+                hideSidebar();
+            }
+        });
+
+        function confirmLogout(event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Logs fetch logic
+        const logsContainer = document.getElementById("logs-container");
+        const logDateInput = document.getElementById("log-date");
+        const todayBtn = document.getElementById("today-btn");
+
+        // Function to update date limits (last 7 days up to today)
+        function updateDateLimits() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+
+            const weekAgo = new Date();
+            weekAgo.setDate(today.getDate() - 7);
+            const weekAgoStr = weekAgo.toISOString().split('T')[0];
+
+            logDateInput.setAttribute("min", weekAgoStr);
+            logDateInput.setAttribute("max", todayStr);
+
+            return todayStr;
+        }
+
+        // Set initial limits and default to today
+        const todayStr = updateDateLimits();
+        logDateInput.value = todayStr;
+
+        // Refresh date limits automatically at midnight
+        function scheduleMidnightRefresh() {
+            const now = new Date();
+            const msUntilMidnight = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() + 1,
+                0, 0, 0, 0
+            ) - now;
+
+            setTimeout(() => {
+                updateDateLimits();
+                scheduleMidnightRefresh();
+            }, msUntilMidnight);
+        }
+        scheduleMidnightRefresh();
+
+        // Fetch logs by date
+        async function fetchLogsByDate(dateStr) {
+            try {
+                const res = await fetch(`/logs_by_date/${dateStr}`);
+                const data = await res.json();
+
+                logsContainer.innerHTML = "";
+                if (data.length === 0) {
+                    logsContainer.innerHTML = "No logs available for this date.";
+                } else {
+                    data.forEach((log, index) => {
+                        const div = document.createElement("div");
+                        div.classList.add("mb-2", "p-2", "bg-gray-700", "rounded");
+
+                        let html = `<strong>#${String(index+1).padStart(3,"0")}</strong> ${log.timestamp}: ${log.event}`;
+
+                        if (log.snapshots && log.snapshots.length > 0) {
+                            html += `<div class="mt-2 flex gap-2">`;
+                            log.snapshots.forEach(s => {
+                                html += `<img src="${s}" width="100" class="rounded shadow"/>`;
+                            });
+                            html += `</div>`;
+                        }
+
+                        div.innerHTML = html;
+                        logsContainer.appendChild(div);
+                    });
+                }
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            } catch (err) {
+                console.error("Error fetching logs:", err);
+            }
+        }
+
+        // Event listeners
+        logDateInput.addEventListener("change", () => fetchLogsByDate(logDateInput.value));
+        todayBtn.addEventListener("click", () => {
+            const todayStr = updateDateLimits();
+            logDateInput.value = todayStr;
+            fetchLogsByDate(todayStr);
+        });
+
+        // Initial fetch
+        fetchLogsByDate(todayStr);
+
+        // Auto-refresh logs every 5 min
+        setInterval(() => fetchLogsByDate(logDateInput.value), 300000);
+
+
+        
+
+
+        // Door controls
+        document.getElementById("unlock-btn").addEventListener("click", () => {
+            fetch("/unlock")
+                .then(res => res.json())
+                .then(data => alert(data.status))
+                .catch(() => alert("Error unlocking door"));
+        });
+
+        document.getElementById("lock-btn").addEventListener("click", () => {
+            fetch("/lock")
+                .then(res => res.json())
+                .then(data => alert(data.status))
+                .catch(() => alert("Error locking door"));
+        });
+    </script>
+</body>
+</html>

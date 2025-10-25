@@ -1,0 +1,123 @@
+.logo-font {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.sidebar {
+  transition: transform 0.3s ease;
+}
+
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+.input-field:focus {
+  outline: 2px solid #6366f1;
+}
+
+.btn-primary {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #6366f1;
+}
+
+.logs-container {
+  font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+  font-size: 1rem;
+  background: #1f2937; /* Tailwind gray-800 */
+  color: #d1d5db;      /* Tailwind gray-300 */
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  height: 12rem;
+  overflow-y: auto;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: #d1d5db; /* Tailwind gray-300 */
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+    background: #374151; /* Tailwind gray-700 */
+    color: #818cf8;      /* Tailwind indigo-400 */
+}
+
+.sidebar-link.active {
+    background: #4f46e5; /* Tailwind indigo-600 */
+    color: #fff;
+}
+
+.logout-link:hover,
+.logout-link:focus {
+    color: #f87171; /* Tailwind red-400 */
+}
+
+.sidebar-link.active-logout {
+    background: #dc2626; /* Tailwind red-600 */
+    color: #fff;
+}
+
+.dashboard-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 2px 8px 0 rgba(99,102,241,0.15);
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    font-size: 1rem;
+}
+
+.unlock-btn {
+    background-color: #16a34a; /* Tailwind green-600 */
+}
+
+.unlock-btn:hover {
+    background-color: #15803d; /* Tailwind green-700 */
+    transform: scale(1.05);
+}
+
+.lock-btn {
+    background-color: #dc2626; /* Tailwind red-600 */
+}
+
+.lock-btn:hover {
+    background-color: #b91c1c; /* Tailwind red-700 */
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: static;
+        box-shadow: none;
+        padding: 1rem;
+    }
+    .ml-64 {
+        margin-left: 0 !important;
+    }
+}

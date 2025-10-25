@@ -1,0 +1,15 @@
+/* Landing Page Styles */
+.logo-font {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}

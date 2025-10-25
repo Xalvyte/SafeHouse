@@ -1,0 +1,64 @@
+/* Login Page Styles */
+.logo-font {
+    font-family: 'Orbitron', sans-serif;
+}
+
+a.page-link {
+    transition: opacity 0.3s ease;
+}
+
+a.page-link.fade-out {
+    opacity: 0;
+}
+
+.login-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #111827;
+    color: #fff;
+    border: 1px solid #374151;
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.login-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px #6366f1;
+}
+
+.login-btn {
+    width: 100%;
+    background-color: #6366f1;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 8px 0 rgba(99,102,241,0.15);
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+}
+
+.login-btn:hover {
+    background-color: #4f46e5;
+    transform: scale(1.03);
+}
+
+.login-link {
+    color: #4ade80;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.login-link:hover {
+    color: #22d3ee;
+}
+
+.login-flash-success {
+    color: #4ade80;
+}
+
+.login-flash-danger, .login-flash-error {
+    color: #f87171;
+}

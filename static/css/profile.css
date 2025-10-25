@@ -1,0 +1,46 @@
+.logo-font {
+    font-family: 'Orbitron', sans-serif;
+}
+
+.profile-form {
+    background-color: #1f2937; /* Tailwind gray-800 */
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 16px 0 rgba(31,41,55,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    background-color: #374151; /* Tailwind gray-700 */
+    color: #fff;
+    border: 1px solid #4b5563; /* Tailwind gray-600 */
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.profile-input:focus {
+    border-color: #6366f1; /* Tailwind indigo-500 */
+    box-shadow: 0 0 0 2px #6366f1;
+}
+
+.profile-btn {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background-color: #6366f1; /* Tailwind indigo-600 */
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: #fff;
+    box-shadow: 0 2px 8px 0 rgba(99,102,241,0.15);
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+}
+
+.profile-btn:hover {
+    background-color: #4f46e5; /* Tailwind indigo-700 */
+    transform: scale(1.03);
+}

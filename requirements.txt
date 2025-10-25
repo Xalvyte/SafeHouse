@@ -1,0 +1,28 @@
+# --- Flask Core ---
+Flask==3.0.3
+Flask-Login==0.6.3
+Flask-Migrate==4.0.7
+Flask-SQLAlchemy==3.1.1
+
+# --- Database ---
+SQLAlchemy==2.0.30
+psycopg2-binary==2.9.9
+
+# --- Face Recognition Stack ---
+facenet-pytorch==2.5.3
+torch==2.3.1
+torchvision==0.18.1
+scikit-learn==1.5.1
+numpy==1.26.4
+pillow==10.3.0
+opencv-python==4.10.0.84
+
+# --- GPIO / Camera (for Raspberry Pi only) ---
+gpiod==2.1.3
+picamera2==0.3.17
+
+# --- Email / Notifications ---
+pytz==2024.1
+
+# --- Utility ---
+requests==2.32.3

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safehouse - Manage Users</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-gray-200 flex min-h-screen">
+
+  <!-- Sidebar -->
+  <aside id="sidebar"
+    class="sidebar fixed inset-y-0 left-0 w-64 md:w-64 w-4/5 max-w-xs bg-gray-800 shadow-lg p-6 flex flex-col transition-transform duration-300 z-40"
+    style="transform: translateX(0);">
+    <h2 class="text-3xl font-bold text-white logo-font mb-2 text-center animate-pulse">
+      Safehouse
+    </h2>
+    <hr class="border-gray-700 mb-4">
+    <nav class="space-y-2">
+      <a href="{{ url_for('dashboard') }}" class="sidebar-link">
+        <i data-lucide="home"></i> Home
+      </a>
+      <a href="{{ url_for('add_user') }}" class="sidebar-link">
+        <i data-lucide="user-plus"></i> Add User
+      </a>
+      <a href="{{ url_for('manage_users') }}" class="sidebar-link {% if request.endpoint == 'manage_users' %}active{% endif %}">
+        <i data-lucide="users"></i> Manage Users
+      </a>
+      <a href="{{ url_for('profile') }}" class="sidebar-link">
+        <i data-lucide="settings"></i> Profile Settings
+      </a>
+      <a href="{{ url_for('logout') }}" class="sidebar-link logout-link">
+        <i data-lucide="log-out"></i> Logout
+      </a>
+    </nav>
+    <button id="menu-btn"
+      class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-50 px-2 py-2 bg-gray-700 rounded-full text-gray-200 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition flex items-center gap-1">
+      <i data-lucide="chevron-left"></i>
+      <i data-lucide="chevron-right"></i>
+    </button>
+  </aside>
+
+  <!-- Overlay for mobile -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-30 hidden md:hidden"></div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-8 ml-64" id="main-content">
+    <h2 class="text-2xl font-bold mb-6 text-center">Manage Authenticated Users</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="w-full max-w-lg mx-auto mb-6">
+          {% for category, message in messages %}
+            <div class="px-4 py-3 rounded-lg mb-2
+              {% if category == 'success' %}bg-green-700 text-green-100
+              {% elif category == 'error' %}bg-red-700 text-red-100
+              {% else %}bg-gray-700 text-gray-100{% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="space-y-6">
+      {% for person, images in people.items() %}
+        <div class="bg-gray-800 p-6 rounded-2xl shadow-lg">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">{{ person }}</h3>
+            <form method="POST" action="{{ url_for('delete_user', username=person) }}"
+                  onsubmit="return confirm('Delete {{person}} and retrain model?');">
+              <button type="submit"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold text-white shadow">
+                <i data-lucide="trash-2" class="inline-block w-4 h-4 mr-1"></i> Delete
+              </button>
+            </form>
+          </div>
+          <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+            {% for img in images[:12] %}
+              <div class="w-full aspect-square overflow-hidden rounded-lg border border-gray-700">
+                <img src="{{ url_for('static', filename='faces/' ~ person ~ '/' ~ img) }}" class="object-cover w-full h-full"/>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <p class="text-gray-400">No users found.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menu-btn");
+    const sidebar = document.getElementById("sidebar");
+    const mainContent = document.getElementById("main-content");
+    const sidebarOverlay = document.getElementById("sidebar-overlay");
+    let sidebarVisible = true;
+
+    function showSidebar() {
+      sidebar.style.transform = "translateX(0)";
+      if (window.innerWidth < 768) {
+        sidebarOverlay.classList.remove("hidden");
+        if (mainContent) mainContent.classList.remove("md:ml-64");
+      } else {
+        sidebarOverlay.classList.add("hidden");
+        if (mainContent) mainContent.classList.add("md:ml-64");
+      }
+    }
+    function hideSidebar() {
+      sidebar.style.transform = "translateX(-100%)";
+      sidebarOverlay.classList.add("hidden");
+      if (mainContent) mainContent.classList.remove("md:ml-64");
+    }
+    menuBtn.addEventListener("click", () => {
+      sidebarVisible = !sidebarVisible;
+      if (sidebarVisible) showSidebar(); else hideSidebar();
+    });
+    sidebarOverlay.addEventListener("click", () => { sidebarVisible = false; hideSidebar(); });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768) { sidebarVisible = true; showSidebar(); }
+      else if (!sidebarVisible) hideSidebar();
+    });
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>

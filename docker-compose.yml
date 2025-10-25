@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: safehouse_web
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    devices:
+      - "/dev/video0:/dev/video0"
+      - "/dev/media0:/dev/media0"
+    privileged: true
+    restart: always
+
+
+  # === PostgreSQL Service ===
+  db:
+    image: postgres:15
+    container_name: safehouse_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: thesispassword
+      POSTGRES_DB: safehouse_db
+    ports:
+      - "5433:5433"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  pgdata:
