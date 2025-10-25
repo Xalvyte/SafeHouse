@@ -188,7 +188,7 @@ sudo docker compose logs -f	View live logs
 sudo docker exec -it safehouse_web bash	Enter Flask container shell
 sudo docker exec -it safehouse_db psql -U postgres	Access Postgres CLI
 ```
-##🔒 Security Notes
+## 🔒 Security Notes
 
 .env file must never be committed to GitHub.
 Docker isolates both app and database from the host network.
@@ -196,7 +196,7 @@ Only port 8000 (web) is exposed.
 Database (db) is only accessible within Docker network, not public.
 Email credentials are injected via environment variables at runtime.
 
-##🧪 Troubleshooting
+## 🧪 Troubleshooting
 
 ```bash
 Issue	Fix
@@ -240,5 +240,7 @@ flask, flask-login
 sqlalchemy, psycopg2
 
 gpiod, picamera2
+
+---
 
 🧠 SafeHouse combines local ML inference, sensor-based automation, and secure containerization — a complete end-to-end IoT security system prototype.
